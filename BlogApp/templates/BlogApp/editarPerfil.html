@@ -1,0 +1,12 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3>Modificar perfil de {{usuario}}</h3>
+<form action="{% url 'editarPerfil' %}" method="POST">{% csrf_token %}
+    <table>
+        {{formulario.as_table}}
+    </table>
+    <input type="submit" value="Guardar">
+</form>
+{% endblock %}

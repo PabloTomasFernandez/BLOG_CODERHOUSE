@@ -1,0 +1,33 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+
+<div>
+<img class="img-otra" src={{blog.image.url}} alt="..." />
+</div>
+<div class="card-body">
+    <h2 class="card-title">{{blog.titulo}}</h2>
+    <h2 class="card-title">{{blog.subtitulo}}</h2>
+    <div class="small text-muted"><a href="{% url 'blog_editar' blog.id %}">{{blog.autor}}</a>: {{blog.created}}</div>
+    <p class="card-text">{{blog.content|linebreaks}}</p>
+    
+</div>
+<br>
+<br>
+{% if request.user.is_authenticated %}
+
+<button>
+    <a class="btn btn-primary" href="{% url 'blog_editar' blog.id %}">Editar</a>
+</button>
+<button>
+    <a class="btn btn-primary" href="{% url 'blog_borrar' blog.id %}">Borrar</a>
+</button>
+{% endif %}
+<br>
+<br>
+<p>
+    <a class="nav-link" href="{% url 'blog_lista' %}">Volver a la lista de blog</a>
+</p>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3>Eliminar blog</h3>
+<form method="POST">{% csrf_token %}
+    <strong>Estas seguro de eliminar blog '{{object}}'</strong> 
+    <input type="submit" value="SI" class="btn btn-primary">
+{% endblock %}

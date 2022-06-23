@@ -1,0 +1,60 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h2>{{mensaje}}</h2>
+<div class="container">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-8">
+            <!-- Nested row for non-featured blog posts-->
+            <div class="row">
+                {% for blog in object_list %}
+                <div class="col-lg-6">        
+                    <!-- Blog post-->
+                    <div class="card mb-4">
+                        <a href="{% url 'blog_detalle' blog.pk %}"><img class="card-img-top" src={{blog.image.url}} alt="..." /></a>
+                        <div class="card-body">
+                            <div class="small text-muted">{{blog.created}}</div>
+                            <h2 class="card-title h4">{{blog.titulo}}</h2>
+                            <p class="card-text">{{blog.subtitulo}}</p>
+                            <a class="btn btn-primary" href="{% url 'blog_detalle' blog.pk %}">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <div class="card mb-4">
+                <div class="card-header">Buscar</div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <form action="{% url 'buscarCategoriaBlog' %}" method="GET">
+                            <input class="form-control" type="text" name="categoria" id="categoria"aria-describedby="button-search" />
+                            <input class="btn btn-primary" id="button-search" type="submit" value="Buscar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Categories widget-->
+            <div class="card mb-4">
+                <div class="card-header">Categories</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ul class="list-unstyled mb-0">
+                                {% for blog in object_list %}
+                                <li><a href="{% url 'blog_detalle' blog.id %}">৹ {{blog.titulo}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

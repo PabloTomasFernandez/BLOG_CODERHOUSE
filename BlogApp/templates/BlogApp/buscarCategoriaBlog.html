@@ -1,0 +1,12 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3>Buscador por categoria de blog</h3>
+<form action="{% url 'buscarCategoriaBlog' %}" method="GET">
+    <h4>Ingrese Categoria buscada:</h4>
+   <input type="text" name="categoria" id="categoria">
+    <input type="submit" value="Buscar">
+</form>     
+
+{% endblock %}
