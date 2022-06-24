@@ -13,11 +13,12 @@
                 <div class="col-lg-6">        
                     <!-- Blog post-->
                     <div class="card mb-4">
-                        <a href="{% url 'blog_detalle' blog.pk %}"><img class="card-img-top" src={{blog.image.url}} alt="..." /></a>
+                        <a href="{% url 'blog_detalle' blog.pk %}"><img class="img-thumbnail" src="{{blog.image.url}}"></a>
                         <div class="card-body">
                             <div class="small text-muted">{{blog.created}}</div>
                             <h2 class="card-title h4">{{blog.titulo}}</h2>
-                            <p class="card-text">{{blog.subtitulo}}</p>
+                            <p class="card-text">{{blog.snippet}}</p>
+                            
                             <a class="btn btn-primary" href="{% url 'blog_detalle' blog.pk %}">Read more →</a>
                         </div>
                     </div>
@@ -46,8 +47,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
-                                {% for blog in object_list %}
-                                <li><a href="{% url 'blog_detalle' blog.id %}">৹ {{blog.titulo}}</a></li>
+                                {% for item in cat_menu %}
+                                    <li><a href="{% url 'buscarCategoriaBlog' %}">{{item}}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

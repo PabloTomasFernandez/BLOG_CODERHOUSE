@@ -2,19 +2,30 @@ from attr import field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from matplotlib import image
 from traitlets import default
 from .models import *
 from django.forms import ModelForm
 
-class BlogForm(forms.Form):
-    titulo=forms.CharField(max_length=50)
-    subtitulo=forms.CharField(max_length=50)
-    autor=forms.CharField(max_length=50)
-    categoria=forms.CharField(max_length=50)
-    content=forms.Textarea()
-    image=forms.ImageField()
-    
+choices=Categoria.objects.all().values_list('name')
+choice_list=[]
+for item in choices:
+    choice_list.append(item)
 
+
+class BlogForm(ModelForm):
+    class Meta:
+        model=Blog
+        fields=('titulo','subtitulo','categoria','autor','categoria','content','snippet')
+        widgets ={
+            'titulo': forms.TextInput(),
+            'subtitulo':forms.TextInput(),
+            'categoria':forms.Select(choices=choices),
+            'autor': forms.Select(),
+            'content':forms.Textarea(attrs={'class':'form-control'}),
+            'snippet':forms.Textarea(),
+        }
+        
 class UserRegisterForm(UserCreationForm):
     email=forms.EmailField(required=True)
     password1=forms.CharField(label="Contraseña", widget=forms.PasswordInput)
@@ -37,3 +48,12 @@ class UserEditForm(UserCreationForm):
         fields=['email','last_name','first_name', 'password1','password2']
         #"" hace vacia todo las caracteristicas que teine que tener asi no aparece un chorizo
         help_texts={k:''for k in fields}
+
+class PostForm(ModelForm):
+    class Meta:
+        model=Comment
+        fields=('name','curpo')
+        widgets ={
+            'name': forms.TextInput(),
+            'curpo':forms.Textarea(),
+        }

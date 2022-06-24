@@ -2,9 +2,13 @@
 {% load static %}
 
 {% block cambia %}
-<form method="POST">{% csrf_token %}
+{% if request.user.is_authenticated %}
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <h1>Crear blog</h1>
+
+    {{form.media}}
     {{form.as_p}}
     <button class="btn btn-primary">Crear Blog</button>
 </form>
+{% endif %}
 {% endblock %}

@@ -3,9 +3,8 @@
 
 {% block cambia %}
 <form method="POST">{% csrf_token %}
-    <h1>Editar el blog</h1>
-    {{form.media}}
+    <h1>Crear comentario</h1>
     {{form.as_p}}
-    <input type="submit" value="Enviar" class="btn btn-primary">
+    <button class="btn btn-primary">Comentar</button>
 </form>
 {% endblock %}

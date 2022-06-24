@@ -1,19 +1,25 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from django.urls import reverse_lazy
-from .forms import  UserEditForm, UserRegisterForm
+from django.urls import reverse_lazy, reverse
+from .forms import  PostForm, UserEditForm, UserRegisterForm
 from .models import *
 from django.views.generic import *
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib.auth.decorators import login_required
-
+from django.http import HttpResponseRedirect
 # Create your views here.
 class Inicio(ListView):
     model=Blog
     template_name= "BlogApp/inicio.html"
+    cats=Categoria.objects.all()
+    def get_context_data(self, *args, **kwargs):
+        cat_menu=Categoria.objects.all()
+        context=super(Inicio,self).get_context_data(*args, **kwargs)
+        context['cat_menu']=cat_menu
+        return context
 
 
 
@@ -57,6 +63,19 @@ class blogCreacion(CreateView):
     template_name= "BlogApp/blog_creacion.html"
     fields='__all__'
 
+class postCreacion(CreateView):
+    model=Comment
+    form_class= PostForm
+    template_name= "BlogApp/comentarios.html"
+    def form_valid(self, form):
+        form.instance.post_id=self.kwargs['pk']
+        return super().form_valid(form)
+    success_url= reverse_lazy('Inicio')
+
+class categoriaCreacion(CreateView):
+    model=Categoria
+    template_name='BlogApp/categoria_creacion.html'
+    fields='__all__'
 #CRUD leer
 
 class blogLista(ListView):
@@ -67,7 +86,23 @@ class blogLista(ListView):
 class blogDetalle(DetailView):
     model=Blog
     template_name= "BlogApp/blog_detalle.html"
+    def get_context_data(self, *args, **kwargs):
+        cat_menu=Categoria.objects.all()
+        
+        stuff= get_object_or_404(Blog, id=self.kwargs['pk'])
+        total_like= stuff.total_like()
+        liked=False
+        if stuff.like.filter(id=self.request.user.id).exists():
+            liked=True
+        context=super(blogDetalle,self).get_context_data(*args, **kwargs)
+        context['cat_menu']=cat_menu
+        context['total_like']=total_like
+        context['liked']=liked
+        return context
 
+def CategoriaVista(request, cats):
+    categoria_blog=Blog.objects.filter(categoria=cats.replace('-',' '))
+    return render(request, 'inicio.html', {'cats':cats.title().replace('-',' '), 'categoria_blog':categoria_blog})
 #CRUD update
 
 class blogActualizar(LoginRequiredMixin, UpdateView):
@@ -127,3 +162,15 @@ def editarPerfil(request):
     else:
         formulario=UserEditForm(instance=usuario) 
     return render(request, 'BlogApp/editarPerfil.html',{'formulario':formulario, 'usuario':usuario.username})
+
+
+def LikeView(request,pk):
+    blog=get_object_or_404(Blog, id=request.POST.get('blog_id'))
+    like=False
+    if blog.like.filter(id=request.user.id).exists():
+        blog.like.remove(request.user)
+        like=False
+    else:
+        blog.like.add(request.user)
+        like=True
+    return HttpResponseRedirect(reverse('blog_detalle', args=[str(pk)]))

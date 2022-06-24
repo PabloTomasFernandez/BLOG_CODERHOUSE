@@ -27,12 +27,17 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'editarPerfil' %}">Editar perfil</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'blog_crear' %}">Crear Blog</a></li>
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'categoria_crear' %}">Crear Categoria</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registro</a></li>
                         {% endif %}
                     </ul>
+                    
                 </div>
+                        
+                
+
             </div>
         </nav>
         <!-- Page header with logo and tagline-->

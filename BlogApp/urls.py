@@ -10,6 +10,8 @@ urlpatterns = [
     path('buscarCategoriaBlog/', buscarCategoriaBlog, name = 'buscarCategoriaBlog'),
     path('buscarBlog/', buscarBlog, name = 'buscarBlog'),
     path('blog/nuevo/', blogCreacion.as_view(), name='blog_crear' ),
+    path('blog/<pk>', postCreacion.as_view(), name='post_crear' ),
+    path('nueva_categoria/', categoriaCreacion.as_view(), name='categoria_crear' ),
     path('blog/', blogLista.as_view(), name='blog_lista' ),
     path('blog/detalle/<pk>', blogDetalle.as_view(), name='blog_detalle' ),
     path('blog/edicion/<pk>', blogActualizar.as_view(), name='blog_editar' ),
@@ -18,4 +20,6 @@ urlpatterns = [
     path('registro',registro_request, name='registro'),
     path('logout',LogoutView.as_view(template_name='BlogApp/logout.html'), name='logout'),
     path('editarPerfil/', editarPerfil, name='editarPerfil' ),
+    path('categoria/<str:cats>/', CategoriaVista, name='categorias'),
+    path('like/<pk>',LikeView, name='like_blog'),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
