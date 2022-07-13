@@ -1,0 +1,17 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3 class="card-title">Resultados de la busqueda: Estamos buscando blog de categoria: {{name}}</h3>
+ 
+{% if blogs %}
+<ul>
+    {%for bl in blogs %}
+    <li class="card-title"><a href="{% url 'blog_detalle' bl.id %}">Nombre: {{bl.titulo}} autor: {{bl.autor}}</a></li>
+    <br>
+    {%endfor%}
+</ul>
+{% else %}
+<h2 class="card-title">Resultados No Encontrados</h2>
+{% endif %}
+{% endblock %}

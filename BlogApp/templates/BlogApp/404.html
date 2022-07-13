@@ -1,0 +1,14 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<div class="container">
+    <article>
+    <hgroup>
+        <h1>Error</h1>
+        <h1>No hay páginas aún</h1>
+    </hgroup>
+    <a href="{% url 'Inicio' %}" title="Back to site" class="error-back">back</a>
+    </article>
+</div>
+{% endblock %}

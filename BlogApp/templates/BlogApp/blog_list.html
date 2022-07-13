@@ -1,0 +1,19 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<div>
+<h3>Listado de Blog</h3>
+
+{% for blog in object_list %}
+    <div class="card mb-4">
+        <a href="{% url 'blog_detalle' blog.id %}"><img class="img-thumbnail" src={{blog.image.url}}></a>
+        <div class="card-body">
+            <div class="small text-muted">{{blog.created}}</div>
+            <h2 class="card-title h4">{{blog}}</h2>
+            <a class="btn btn-primary" href="{% url 'blog_detalle' blog.id %}">Leer más</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

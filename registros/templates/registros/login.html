@@ -1,0 +1,12 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3>Login</h3>
+<form method="POST">{% csrf_token %}
+    <h2>Ingrese usuario y contraseña</h2>
+    <h5>{{mensaje}}</h5>
+    {{form.as_p}}
+    <button type="submit" value="Enviar" >Inicio Sesion</button>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+<h3>Registro de usuario</h3>
+<form method="POST">{% csrf_token %}
+    <h2>Ingrese usuario y contraseña</h2>
+    {{form.as_p}}
+    <button type="submit" value="Enviar" >Registro</button>
+</form>
+{% endblock %}

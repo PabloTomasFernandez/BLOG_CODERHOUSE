@@ -1,0 +1,61 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+
+<div class="card-body">
+    <h2 class="card-title">{{blog.titulo}}</h2>
+    <img src="{{blog.image.url}}" class="figure-img">
+    <h2 class="card-title">{{blog.subtitulo}}</h2>
+    <div class="small text-muted">{{blog.autor}}</a>:<a href="{% url 'categorias' blog.categoria %}">{{blog.categoria}}</a>-{{blog.created}}</div>
+    <p class="card-text">{{blog.content|safe}}</p>
+    
+</div>
+<br>
+<br>
+<hr>
+<form action="{% url 'like_blog' blog.pk %}" method="POST">{% csrf_token %}
+    {% if request.user.is_authenticated %}
+        {% if liked %}
+        <button type="submit", name="blog_id", value="{{blog.id}}", class="btn btn-danger btn-sm">Unlike</button>
+        {% else %}
+        <button type="submit", name="blog_id", value="{{blog.id}}", class="btn btn-primary btn-sm">Like</button>
+        {% endif %}
+    {% else %}
+    <small>Login to like</small>
+    {% endif %}
+    - {{total_like}} like
+</form>
+<br><br>
+<h2>Comentarios</h2>
+{% if not blog.comments.all %}
+    No hay Comentarios...
+{% else %}
+    {% for comment in blog.comments.all %}
+    <strong>
+        {{comment.name}}  - 
+        {{comment.created}}
+    </strong>
+    <br>
+    {{comment.curpo}}
+    {% endfor %}
+    {% endif %}
+    <br>
+    <a href="{% url 'post_crear' blog.pk %}">Agregar comentario</a>
+    <br><br>
+{% if request.user.is_authenticated %}
+
+<button>
+    <a class="btn btn-primary" href="{% url 'blog_editar' blog.id %}">Editar</a>
+</button>
+<button>
+    <a class="btn btn-primary" href="{% url 'blog_borrar' blog.id %}">Borrar</a>
+</button>
+{% endif %}
+<br>
+<br>
+<p>
+    <a class="nav-link" href="{% url 'blog_lista' %}">Volver a la lista de blog</a>
+</p>
+
+{% endblock %}

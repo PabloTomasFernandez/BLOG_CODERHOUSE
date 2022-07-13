@@ -1,0 +1,17 @@
+{% extends "BlogApp/padre.html" %}
+{% load static %}
+
+{% block cambia %}
+
+{% if categoria_blog %}
+<ul>
+    {%for bl in categoria_blog %}
+    <li class="card-title"><a href="{% url 'blog_detalle' bl.id %}">{{bl.titulo}}-{{cats}}-{{bl.autor}}-{{bl.created}}</a></li>
+    <br>
+    {%endfor%}
+</ul>
+{% else %}
+<h2 class="card-title">Resultados No Encontrados</h2>
+{% endif %}
+
+{% endblock %}
